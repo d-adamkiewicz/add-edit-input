@@ -1,0 +1,1 @@
+YUI2/YUI3 widget and php/mysql server-side script aiming fast entering data to database
