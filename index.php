@@ -28,8 +28,9 @@ body {
 <script type="text/javascript" src="<?php echo $root_path; ?>/vendor/yui_3.3.0/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam  yui-skin-sam">
-<div id="depart-container"></div>
-<div id="branch-container"></div>
+<div id="folks-container"></div>
+<!--<br clear="left">-->
+<div id="places-container"></div>
 <script type="text/javascript">
 YUI({
 	base:'<?php echo $root_path; ?>/vendor/yui_3.3.0/build/',
@@ -66,37 +67,36 @@ YUI({
 	var Widget = Y.Widget,
 			YAHOO = Y.YUI2;
 	var addEditInput = new Y.AddEditInput({
-		boundingBox: '#zona-container'
+		boundingBox: '#folks-container'
 		//, width: "10em"
 		, inputs: [
-			{size: "30", id: "dep-department", label: "Name"},
-			{size: "40", id: "dep-descr", label: "Description"},
-			{size: "2", id: "dep-counts", label: "Liczba"}
+			{size: "16", id: "person-fname", label: "First name"},
+			{size: "24", id: "person-lname", label: "Last name"},
+			{size: "2", id: "person-age", label: "Age"}
 		]
-		, initDataSource: {jsonData:<?php include_once("./depart/select.php"); ?>}
+		, initDataSource: {jsonData:<?php include_once("./folks/select.php"); ?>}
 		, buttons: [
-			{label: 'Dodaj', action: 'add-dep-data'},
-			{label: 'Zmień', action: 'edit-dep-data'}
+			{label: 'Add', action: 'add-pers-data'},
+			{label: 'Edit', action: 'edit-pers-data'}
 		]
-		, script: 'dzial/process.php'
-		//initDataSource: {script:'emit_json.php'}
+		, script: 'folks/process.php'
 	});
 	addEditInput.render();
 
 	var addEditInput2 = new Y.AddEditInput({
-		boundingBox: '#branch-container'
+		boundingBox: '#places-container'
 		//, width: "10em"
 		, inputs: [
-			{size: "10", id: "unit", label: "Name"},
-			{size: "20", id: "descr", label: "Description"}
+			{size: "16", id: "city", label: "City"},
+			{size: "8", id: "pocode", label: "Postal code"},
+			{size: "16", id: "country", label: "Country"}
 		]
-		, initDataSource: {jsonData:<?php include_once("./branch/select.php"); ?>}
+		, initDataSource: {jsonData:<?php include_once("./places/select.php"); ?>}
 		, buttons: [
-			{label: 'Dodaj', action: 'add-branch-data'},
-			{label: 'Zmień', action: 'edit-branch-data'}
+			{label: 'Add', action: 'add-branch-data'},
+			{label: 'Edit', action: 'edit-branch-data'}
 		]
-		, script: 'komorka/process.php'
-		//initDataSource: {script:'emit_json.php'}
+		, script: 'places/process.php'
 	});
 	addEditInput2.render();
 });

@@ -1,7 +1,7 @@
 <?php
 return array(
 	'items'=>array(
-		array('pg'=>array('name'=>'department', 'pdo_def'=>array(PDO::PARAM_STR, 30)), 'tb'=>array('name'=>'dep','col_def'=>'VARCHAR(30)')),
+		array('pg'=>array('name'=>'fname', 'pdo_def'=>array(PDO::PARAM_STR, 16)), 'tb'=>array('name'=>'dep','col_def'=>'VARCHAR(16)')),
 		/**
 		* if 'tb' array is omitted it's assumed it's (almost) the same as 'pg' 
 		* 'col_def' defaults: 
@@ -9,15 +9,15 @@ return array(
 		* PDO_PARAM_INT is SMALLINT
 		* TDO: 'defaults' array can change that
 		*/
-		array('pg'=>array('name'=>'descr', 'pdo_def'=>array(PDO::PARAM_STR,255))),
-		array('pg'=>array('name'=>'counts', 'pdo_def'=>array(PDO::PARAM_INT)))
+		array('pg'=>array('name'=>'lname', 'pdo_def'=>array(PDO::PARAM_STR, 32))),
+		array('pg'=>array('name'=>'age', 'pdo_def'=>array(PDO::PARAM_INT)))
 	),
 	/**
 	* 'table' or 'prefix' must be set (or both)
 	* if only 'prefix' is set table name is constructed by adding 's' at the end
 	* 'prefix'"s" 
 	**/
-	//'table'=>'deps'
-	'prefix'=>'dep'
+	//'table'=>'people'
+	'prefix'=>'person'
 );
 ?>
