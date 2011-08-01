@@ -1,4 +1,5 @@
 YUI2/YUI3 widget and php/mysql server-side script aiming fast building and fast entering data to database
+NOTICE: In order this to work you need to have php version earlier than 5.3!!!
 
 in order example to work you must put dir/files somewhere in WWW server directory
 then set database parameters in 'config_db.php' file
