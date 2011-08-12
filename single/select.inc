@@ -1,4 +1,6 @@
 <?php
+namespace add_edit_input;
+
 include_once("config.php");
 include_once("helper.php");
 include_once("mypdo.php");
@@ -88,7 +90,7 @@ function rows_count($c, $mydb){
 
 function index2id($c, $mydb){
 	$sql = "SELECT @rownum:=@rownum+1 AS rownum, {$c->prefix()}_id 
-		FROM (SELECT @rownum:=-1) r, {$c->table()} ORDER BY {$c->prefix()}_id";
+		FROM (SELECT {$c->prefix()}_id FROM {$c->table()} ORDER BY {$c->prefix()}_id) v, (SELECT @rownum:=-1) r";
 
 	try {
 		$rv = $mydb->query($sql);
@@ -98,7 +100,8 @@ function index2id($c, $mydb){
 	}
 
 	$map = array();
-	while($row = $rv->fetch(PDO::FETCH_ASSOC)){
+	// notice: thanks to \ is global constant
+	while($row = $rv->fetch(\PDO::FETCH_ASSOC)){
 		$map[$row['rownum']] = $row["{$c->prefix()}_id"];	
 	}
 

@@ -4,7 +4,7 @@ if (!is_file("process.inc")){
 	chdir('../');
 }
 include_once("process.inc");
-$c = new Config($config_filename);
+$c = new \add_edit_input\Config($config_filename);
 $mydb = new MyPDO();
 $get = array();
 foreach($_GET as $k=>$v){

@@ -1,5 +1,5 @@
 <?php
-//v0.3 >php5.3 
+//v0.3
 include_once('config.php');
 include_once('mypdo.php');
 include_once('helper.php');
@@ -15,9 +15,16 @@ include_once('debug.php');
 * $write_log = FALSE;
 */
 
+function as_ref($arr){
+    $refs = array();
+    foreach($arr as $key => $value)
+        $refs[$key] = &$arr[$key];
+    return $refs;
+}
+
 function process($c, $mydb, $get){
 	$disable_button = TRUE;
-	$rows_count = rows_count($c, $mydb);
+	$rows_count = \add_edit_input\rows_count($c, $mydb);
 
 	write_log("\$rows_count: " . $rows_count, 'process.log');
 
@@ -36,12 +43,16 @@ function process($c, $mydb, $get){
 			***/
 			$rv = call_user_func_array(
 				array($sth, "bindParam"),
-				array_merge(
+				/***
+				* as in php5.3 second parameter to 'call_user_func_array' 
+				* must be array of referenced values (not values itself)
+				***/
+				as_ref(array_merge(
 					array(":" . $item['tb']['name'], $get[$item['pg']['name']]),
-					// notice (array) cast
+				// notice (array) cast
 					(array)$item['pg']['pdo_def']
+					)
 				)
-				
 			);
 			if (!$rv){
 				write_log('failed to pass parameters to "bindParam"', 'process.log');
@@ -79,10 +90,10 @@ function process($c, $mydb, $get){
 			exit(1);
 		}
 
-		list($response, $rows_count) = select($c, $mydb);
+		list($response, $rows_count) = \add_edit_input\select($c, $mydb);
 		$disable_button = FALSE;
 	} else if (strpos($get['action'], 'edit') !== FALSE) {
-		$map = index2id($c, $mydb);
+		$map = \add_edit_input\index2id($c, $mydb);
 		$id = $map[$get['seli']];
 
 		write_log("\$id: " . $id, 'process.log');
@@ -122,10 +133,10 @@ function process($c, $mydb, $get){
 			exit(1);
 		}
 
-		list($response, $rows_count) = select($c, $mydb);
+		list($response, $rows_count) = \add_edit_input\select($c, $mydb);
 		$disable_button = FALSE;
 	} else if (strpos($get['action'], 'delete') !== FALSE) {
-		$map = index2id($c, $mydb);
+		$map = \add_edit_input\index2id($c, $mydb);
 		$id = $map[$get['seli']];
 
 		write_log("\$id: " . $id, 'process.log');
@@ -181,7 +192,7 @@ function process($c, $mydb, $get){
 			exit(1);
 		}
 
-		list($response, $rows_count) = select($c, $mydb);
+		list($response, $rows_count) = \add_edit_input\select($c, $mydb);
 		$disable_button = FALSE;
 	}
 	echo json_encode($response + array('disable-button'=>$disable_button));

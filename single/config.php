@@ -1,4 +1,5 @@
 <?php
+namespace add_edit_input;
 class Config{
 	protected $table;
 	protected $prefix;
@@ -9,9 +10,9 @@ class Config{
 		$this->dirname = dirname($path);
 		$c = require $path;
 		$tb_prefix = $pg_prefix = "";
-		if ($c['table'] || $c['prefix']){
-			$this->table = $c['table'] ? $c['table'] : ($c['prefix'] . "s");
-			$this->prefix = $c['prefix'];
+		if (isset($c['table']) || isset($c['prefix'])){
+			$this->table = isset($c['table']) ? $c['table'] : ($c['prefix'] . "s");
+			$this->prefix = isset($c['prefix'])?$c['prefix']:'';
 			if ($this->prefix) {
 				$tb_prefix = $this->prefix . "_";
 				$pg_prefix = $this->prefix . "-";
@@ -20,14 +21,18 @@ class Config{
 			die("Error:...");	
 		}
 		foreach($c['items'] as &$item) {
+			// in order to prevent 'Undefined index: ...' warning
+			$item['tb'] = isset($item['tb']) ? $item['tb'] : '';
+			$item['tb']['name'] = isset($item['tb']['name']) ? $item['tb']['name'] : '';
+
 			// order matters
 			$item['tb']['name'] =  $tb_prefix . ($item['tb']['name'] ? $item['tb']['name'] : $item['pg']['name']);
-			if (!$item['tb']['col_def']){
+			if (!isset($item['tb']['col_def'])){
 				switch($item['pg']['pdo_def'][0]){
-					case PDO::PARAM_STR:
+					case \PDO::PARAM_STR:
 						$item['tb']['col_def'] = "VARCHAR(" . ($item['pg']['pdo_def'][1]?$item['pg']['pdo_def'][1]:"255") . ")"; 
 					break;
-					case PDO::PARAM_INT:
+					case \PDO::PARAM_INT:
 						$item['tb']['col_def'] = "INT";
 					break;
 				}

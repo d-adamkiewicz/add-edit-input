@@ -106,33 +106,6 @@ YUI.add('add-edit-input', function(Y){
 			if (typeof initDS['jsonData'] != "undefined") {
 				this.produceMarkup(cb, initDS['jsonData'], inputs);
 			}
-			/********
-			THIS WON'T WORK BECAUSE DATASOURCE EXPECT
-			TABULAR DATA POINTED BY 'resultListLocator' TO BE FETCHED
-			********/
-			/*
-			if (typeof initDS['script'] != "undefined") {
-				var myDataSource = new Y.DataSource.IO({source:initDS['script']});
-				myDataSource.plug({fn: Y.Plugin.DataSourceJSONSchema, cfg: {
-					schema: {
-						resultListLocator: "Result"
-					}
-				}});
-				var myCallbackJSON = {
-					success: function(e){
-						e.callback.argument['self'].produceMarkup(cb, e.response.results, inputs);
-					},
-					failure: function(e){
-						alert("datasource error " + e.error.message);
-					},
-					argument: {self: this}
-				};
-				myDataSource.sendRequest({
-					request:"?output=json",
-					callback: myCallbackJSON
-				});
-			}
-			*/
 		},
 		handleButton: function(){
 			/*
@@ -176,7 +149,7 @@ YUI.add('add-edit-input', function(Y){
 						}
 						this.set('index', messages['Result']['select']['index']);
 						this.set('items', messages['Result']['items']);
-						arguments['btn'].set('disabled', false);
+						arguments['btn'].set('disabled', messages['disable-button']);
 					},
 					failure: function(x, o) {
 						alert("Async call failed!");
@@ -195,10 +168,10 @@ YUI.add('add-edit-input', function(Y){
 					parts = [];
 
 			for(var i=0, l=buttons.length;i<l; i++) {
-				var btn = new YAHOO.widget.Button(buttons[i],{onclick: {fn: this.handleButton, obj: this}});
+				var btn = new YAHOO.widget.Button(buttons[i], {onclick: {fn: this.handleButton, obj: this}});
 				parts = buttons[i].split('-');
 				// identify button
-				if (Y.Array.indexOf(parts,'edit') != -1){
+				if (Y.Array.indexOf(parts,'edit') != -1 || Y.Array.indexOf(parts,'delete') != -1){
 					this.on('indexChange', function(e){
 						var newIndex = e.newVal;
 						// no data, disable button
@@ -263,4 +236,4 @@ YUI.add('add-edit-input', function(Y){
 	});
 	// crucial
 	Y.AddEditInput = AddEditInput;
-}, '0.0.10', { requires:['widget', 'datasource', 'io-xdr', 'dump', 'json-parse', 'yui2-button']});
+}, '0.0.11', { requires:['widget', 'datasource', 'io-xdr', 'dump', 'json-parse', 'yui2-button']});

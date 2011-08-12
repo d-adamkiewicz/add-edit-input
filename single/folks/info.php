@@ -5,7 +5,7 @@ if (!is_file("config.php")){
 }
 include_once("config.php");
 include_once("helper.php");
-$c = new Config($config_filename);
+$c = new \add_edit_input\Config($config_filename);
 $items = $c->items();
 if ($_GET['all']){
 	echo json_encode($items);
@@ -16,4 +16,5 @@ if ($_GET['all']){
 	}
 	echo json_encode($pg);
 }
+preprint(var_export($c, TRUE));
 ?>

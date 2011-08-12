@@ -2,7 +2,7 @@
 include_once('config.php');
 include_once('helper.php');
 $dir_handle = opendir('./');
-$pattern = '/^.{1,2}$/';
+$pattern = '/^\.{1,2}$/';
 while(false !== ($file = readdir($dir_handle))){
 	if (is_dir($file)){
 		if (!preg_match($pattern, $file)){

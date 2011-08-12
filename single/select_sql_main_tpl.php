@@ -6,4 +6,4 @@ SELECT
 <?php endforeach;?>
 <?php echo "," . $conf->prefix() . "_created\n" ?>
 <?php echo "," . $conf->prefix() . "_updated\n" ?>
-FROM (SELECT @rownum:=-1) r, <?php echo $conf->table() ?> ORDER BY <?php echo $conf->prefix() . "_id" ?> 
+FROM (SELECT * FROM <?php echo $conf->table() ?> ORDER BY <?php echo $conf->prefix() . "_id" ?> ) v, (SELECT @rownum:=-1) r 

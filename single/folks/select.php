@@ -4,8 +4,8 @@ if (!is_file("select.inc")){
 	chdir('../');
 }
 include_once("select.inc");
-$c = new Config($config_filename);
+$c = new \add_edit_input\Config($config_filename);
 $mydb = new MyPDO();
-list($response, $rows_count) = select($c, $mydb);
+list($response, $rows_count) = \add_edit_input\select($c, $mydb);
 echo json_encode($response['Result']);
 ?>
